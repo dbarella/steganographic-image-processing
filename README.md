@@ -15,12 +15,12 @@ need to install Pillow and pathlib (noted in `requirements.txt`).
 Here's an example of how you could run the program:
 
 ```sh
-python processing.py riskytxt.jpg --least_significant_digits=3 --save_processed_images
+python processing.py riskytxt.jpg --least_significant_digits=4 --display
+--save_processed_images --output_dir=/tmp/processed-pix
 ```
 
 This will:
 
 1. Process `riskytxt.jpg` for `0b11` and `0b111`.
-1. Open the post-processed images.
-1. Save the processed images to the current working directory from whence the
-   script is running.
+1. Open the post-processed images for the user to check them out.
+1. Save the processed images to `/tmp/processed-pix`
