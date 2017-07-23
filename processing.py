@@ -50,25 +50,22 @@ def apply_function_and_normalize_to_rgb(function, n_significant_digits):
     return inner
 
 
-def process(image_filename, least_significant_digit_interval):
+def process(image, least_significant_digit_interval):
     # type: (str, Tuple[int, int]) -> Dict[int, PIL.Image]
     """Runs an image through some steganographic decodings.
 
     Args:
-        image_filename: The image to process. Totally blows up if this file
-            doesn't exist. IDGAF!!!
+        image: The image to process.
         least_significant_digit_interval: An inverval of [int, int) over which
             to process the image.
     Returns:
         A map of least-significant-digit to post-processed image.
     """
-    original_image = Image.open(image_filename)
-
     processed_images = {}
     for significant_digits in range(*least_significant_digit_interval):
         processed_images[significant_digits] = (
             image_apply(
-                original_image,
+                image,
                 apply_function_and_normalize_to_rgb(
                     least_significant_digits,
                     int('1' * significant_digits, base=2))))
@@ -165,7 +162,7 @@ def main():
 
     # type: Dict[int, PIL.Image]
     lsd_to_images_map = process(
-        args.image_name,
+        Image.open(args.image_name),
         (MIN_LEAST_SIGNIFICANT_DIGITS, args.least_significant_digits+1))
 
     # Display the processed images
