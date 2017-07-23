@@ -1,8 +1,9 @@
+"""Script for processing steganographically-encoded images."""
+
 import argparse
+import PIL
 import os
 import sys
-
-from PIL import Image
 
 RGB_RANGE = 0b11111111
 
@@ -16,7 +17,7 @@ def image_apply(image, function):
         function: A function :: int -> int that takes a value \in [0, 256] and
             returns a new value \in [0, 265].
     """
-    return Image.merge(
+    return PIL.Image.merge(
         'RGB', [channel.point(function) for channel in image.split()])
 
 
@@ -58,7 +59,7 @@ def process(image_filename, least_significant_digit_interval):
     Returns:
         A map of least-significant-digit to post-processed image.
     """
-    original_image = Image.open(image_filename)
+    original_image = PIL.Image.open(image_filename)
 
     processed_images = {}
     for significant_digits in range(*least_significant_digit_interval):
@@ -71,7 +72,7 @@ def process(image_filename, least_significant_digit_interval):
     return processed_images
 
 
-def save(images):
+def save(images, output_dir):
     # type: Dict[int, PIL.Image] -> None
     """Saves images with filenames showing the significant digit processed."""
     for significant_digits, image in images.itervalues():
@@ -83,7 +84,8 @@ def argument_parser():
     # type: () -> argparse.ArgumentParser
     """Returns a configured argparser.ArgumentParser for this program."""
     parser = argparse.ArgumentParser(
-        description='Process an image to figure out if it contains ~*SECRETS*~')
+        description='Process an image to figure out if it contains ~*SECRETS*~',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument(
         'image_name',
@@ -107,6 +109,7 @@ def argument_parser():
             'If not specified, the current working directory will be used.'))
 
     return parser
+
 
 def query_user(question, default="no"):
     """Ask a yes/no question via raw_input() and return their answer.
@@ -148,6 +151,7 @@ def query_user(question, default="no"):
                 'Please respond with {}'.format(
                     response_to_bool_map.iterkeys()))
 
+
 def main():
     args = argument_parser().parse_args()
 
@@ -164,10 +168,10 @@ def main():
         user_response = (
             query_user(
                 'GONNA SAVE {} IMAGES GAR, IS THAT K???'.format(
-                    len(lsd_to_images_map))),
-                )
+                    len(lsd_to_images_map))))
         if user_response:
-            save(lsd_to_images_map)
+            save(lsd_to_images_map, output_dir=args.output_dir)
+
 
 if __name__ == '__main__':
     main()
