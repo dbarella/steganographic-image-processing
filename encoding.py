@@ -61,3 +61,32 @@ def encode(host, payload):
                 host=host_channel,
                 payload=payload_channel))
     return Image.merge('RGB', output_rgb_channels)
+
+
+def main():
+    args = argument_parser().parse_args()
+    # TODO(dbarella): Implement the LSD feature
+
+    host = Image.open(args.host_image)
+    payload = Image.open(args.payload_image)
+
+    encoded = encode(host, payload)
+
+    # Display the encoded image
+    if args.display:
+        encoded.show()
+
+    # Save the encoded image, if the user wants us to
+    if args.save_result:
+        user_response = (
+            utilities.query_user(
+                'GONNA SAVE ENCODED IMAGE to "{1:s}"; GAR, IS THAT K???'.format(
+                    str(args.output_dir.absolute()))))
+        if user_response:
+            p = args.host_image  # Short reference to the host_image path
+            filename = '{0:s}{1:s}{2:s}'.format(p.stem, '.encoded', p.suffix)
+            image.save(output_dir.joinpath(filename), format='jpeg')
+
+
+if __name__ == '__main__':
+    main()
