@@ -7,12 +7,26 @@ import sys
 
 from PIL import Image
 
-MIN_LEAST_SIGNIFICANT_DIGITS = 2
+# Specific to this package
+import utilities
+
+MIN_LEAST_SIGNIFICANT_DIGITS = 0
 RGB_RANGE = 0b11111111
 
 
+def bit_mask(size):
+    # type: int -> int
+    """Return a bit mask with `size` number of 1-s."""
+    if size < 0:
+        raise ValueError('{0:d} B TOO SMALL BB'.format(size))
+    elif size == 0:
+        return 0
+    else:
+        return int('1' * size, base=2)
+
+
 def image_apply(image, function):
-    # type: PIL.Image, Callable[[int], int]
+    # type: (PIL.Image, Callable[[int], int]) -> PIL.Image
     """Applies a function to an image, returning the result as a new image.
 
     Args:
@@ -24,19 +38,17 @@ def image_apply(image, function):
         'RGB', [channel.point(function) for channel in image.split()])
 
 
-def least_significant_digits(pixel_value, n_significant_digits=None):
+def least_significant_digits(pixel_value, n_significant_digits):
     # type: int -> int
     """Returns the n least-significant-digits of pixel_value."""
-    if not n_significant_digits:
-        n_significant_digits = 2
-    return pixel_value & int('1' * n_significant_digits, base=2)
+    return pixel_value & bit_mask(n_significant_digits)
 
 
-def normalize_to_rgb(value, n_significant_digits=None):
+def normalize_to_rgb(value, n_significant_digits):
     # type: (int, int) -> int
     """Normalizes an int value \in [0, n_significant_digits) to RGB."""
-    if not n_significant_digits:
-        n_significant_digits = 4
+    if n_significant_digits == 0:
+        return value
     return value * int(float(RGB_RANGE) / n_significant_digits)
 
 
@@ -68,7 +80,7 @@ def process(image, least_significant_digit_interval):
                 image,
                 apply_function_and_normalize_to_rgb(
                     least_significant_digits,
-                    int('1' * significant_digits, base=2))))
+                    bit_mask(significant_digits))))
     return processed_images
 
 
@@ -76,7 +88,7 @@ def save(images, output_dir):
     # type: (Dict[int, PIL.Image], pathlib.Path) -> None
     """Saves images with filenames showing the significant digit processed."""
     for significant_digits, image in images.items():
-        filename = ('0b{}.jpg'.format('1' * significant_digits))
+        filename = ('0b{}.jpg'.format(bit_mask(significant_digits)))
         image.save(output_dir.joinpath(filename), format='jpeg')
 
 
@@ -94,7 +106,7 @@ def argument_parser():
     parser.add_argument(
         '--least_significant_digits',
         type=int,
-        default=2,
+        default=1,
         help='The highest number of least significant digits to scan over.')
     parser.add_argument(
         '--display',
@@ -116,47 +128,6 @@ def argument_parser():
     return parser
 
 
-def query_user(question, default="no"):
-    """Ask the user a yes/no question and return the response.
-
-    Copied from
-    https://stackoverflow.com/questions/3041986/apt-command-line-interface-like-yes-no-input
-
-    "question" is a string that is presented to the user.
-    "default" is the presumed answer if the user just hits <Enter>.
-        It must be "yes" (the default), "no" or None (meaning
-        an answer is required of the user).
-
-    The "answer" return value is True for "yes" or False for "no".
-    """
-    if default is None:
-        prompt = ' [y/n] '
-    elif default == 'yes':
-        prompt = ' [Y/n] '
-    elif default == 'no':
-        prompt = ' [y/N] '
-    else:
-        raise ValueError("invalid default answer: '%s'" % default)
-
-    response_to_bool_map = {
-        'yes': True,
-        'y': True,
-        'no': False,
-        'n': False
-    }
-    while True:
-        sys.stdout.write(question + prompt)
-        choice = input().lower()
-        if default is not None and choice == '':
-            return response_to_bool_map[default]
-        elif choice in response_to_bool_map:
-            return response_to_bool_map[choice]
-        else:
-            print(
-                'Please respond with one of "{0:s}"'.format(
-                    '", "'.join(response_to_bool_map.keys())))
-
-
 def main():
     args = argument_parser().parse_args()
 
@@ -173,7 +144,7 @@ def main():
     # Save the images, if the user wants us to
     if args.save_images:
         user_response = (
-            query_user(
+            utilities.query_user(
                 'GONNA SAVE {0:d} IMAGES to "{1:s}"; GAR, IS THAT K???'.format(
                     len(lsd_to_images_map), str(args.output_dir.absolute()))))
         if user_response:
