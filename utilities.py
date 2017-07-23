@@ -3,6 +3,17 @@
 import sys
 
 
+def bit_mask(size):
+    # type: int -> int
+    """Return a bit mask with `size` number of 1-s."""
+    if size < 0:
+        raise ValueError('{0:d} B TOO SMALL BB'.format(size))
+    elif size == 0:
+        return 0
+    else:
+        return int('1' * size, base=2)
+
+
 def query_user(question, default="no"):
     """Ask the user a yes/no question and return the response.
 

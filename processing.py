@@ -26,7 +26,12 @@ def argument_parser():
         type=str,
         help='The name of the image to process.')
     parser.add_argument(
-        '--least_significant_digits',
+        '--least_significant_digits_lower_bound',
+        type=int,
+        default=1,
+        help='The lowest number of least significant digits to scan over.')
+    parser.add_argument(
+        '--least_significant_digits_upper_bound',
         type=int,
         default=1,
         help='The highest number of least significant digits to scan over.')
@@ -50,17 +55,6 @@ def argument_parser():
     return parser
 
 
-def bit_mask(size):
-    # type: int -> int
-    """Return a bit mask with `size` number of 1-s."""
-    if size < 0:
-        raise ValueError('{0:d} B TOO SMALL BB'.format(size))
-    elif size == 0:
-        return 0
-    else:
-        return int('1' * size, base=2)
-
-
 def image_apply(image, function):
     # type: (PIL.Image, Callable[[int], int]) -> PIL.Image
     """Applies a function to an image, returning the result as a new image.
@@ -77,7 +71,7 @@ def image_apply(image, function):
 def least_significant_digits(pixel_value, n_significant_digits):
     # type: int -> int
     """Returns the n least-significant-digits of pixel_value."""
-    return pixel_value & bit_mask(n_significant_digits)
+    return pixel_value & utilities.bit_mask(n_significant_digits)
 
 
 def normalize_to_rgb(value, n_significant_digits):
@@ -116,7 +110,7 @@ def process(image, least_significant_digit_interval):
                 image,
                 apply_function_and_normalize_to_rgb(
                     least_significant_digits,
-                    bit_mask(significant_digits))))
+                    utilities.bit_mask(significant_digits))))
     return processed_images
 
 
@@ -124,7 +118,7 @@ def save(images, output_dir):
     # type: (Dict[int, PIL.Image], pathlib.Path) -> None
     """Saves images with filenames showing the significant digit processed."""
     for significant_digits, image in images.items():
-        filename = ('0b{}.jpg'.format(bit_mask(significant_digits)))
+        filename = ('0b{}.jpg'.format(utilities.bit_mask(significant_digits)))
         image.save(output_dir.joinpath(filename), format='jpeg')
 
 
@@ -134,7 +128,8 @@ def main():
     # type: Dict[int, PIL.Image]
     lsd_to_images_map = process(
         Image.open(args.image_name),
-        (MIN_LEAST_SIGNIFICANT_DIGITS, args.least_significant_digits+1))
+        (args.least_significant_digits_lower_bound,
+         args.least_significant_digits_upper_bound + 1))
 
     # Display the processed images
     if args.display:
