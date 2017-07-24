@@ -25,12 +25,12 @@ def argument_parser():
         type=str,
         help='The name of the image to process.')
     parser.add_argument(
-        '--least_significant_digits_lower_bound',
+        '--significant_digits_lower_bound',
         type=int,
         default=1,
         help='The lowest number of least significant digits to scan over.')
     parser.add_argument(
-        '--least_significant_digits_upper_bound',
+        '--significant_digits_upper_bound',
         type=int,
         default=1,
         help='The highest number of least significant digits to scan over.')
@@ -91,19 +91,19 @@ def apply_function_and_normalize_to_rgb(function, n_significant_digits):
     return inner
 
 
-def process(image, least_significant_digit_interval):
+def process(image, significant_digit_interval):
     # type: (str, Tuple[int, int]) -> Dict[int, PIL.Image]
     """Runs an image through some steganographic decodings.
 
     Args:
         image: The image to process.
-        least_significant_digit_interval: An inverval of [int, int) over which
+        significant_digit_interval: An inverval of [int, int) over which
             to process the image.
     Returns:
         A map of least-significant-digit to post-processed image.
     """
     processed_images = {}
-    for significant_digits in range(*least_significant_digit_interval):
+    for significant_digits in range(*significant_digit_interval):
         processed_images[significant_digits] = (
             image_apply(
                 image,
@@ -129,9 +129,9 @@ def main():
     # type: Dict[int, PIL.Image]
     lsd_to_images_map = process(
         Image.open(args.image_name),
-        least_significant_digit_interval=(
-            args.least_significant_digits_lower_bound,
-            args.least_significant_digits_upper_bound + 1))
+        significant_digit_interval=(
+            args.significant_digits_lower_bound,
+            args.significant_digits_upper_bound + 1))
 
     # Display the processed images
     if args.display:
