@@ -10,7 +10,6 @@ from PIL import Image
 # Specific to this package
 import utilities
 
-MIN_LEAST_SIGNIFICANT_DIGITS = 0
 RGB_RANGE = 0b11111111
 
 
