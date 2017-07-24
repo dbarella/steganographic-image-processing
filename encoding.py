@@ -24,7 +24,7 @@ def argument_parser():
         type=pathlib.Path,
         help='The image that will be hidden within the host image.')
     parser.add_argument(
-        '--least_significant_digits',
+        '--significant_digits',
         type=int,
         default=1,
         help='The number of least significant digits available to encode over.')
@@ -73,7 +73,7 @@ def main():
     host = Image.open(args.host_image)
     payload = Image.open(args.payload_image)
 
-    encoded = encode(host, payload, args.least_significant_digits)
+    encoded = encode(host, payload, args.significant_digits)
 
     # Display the encoded image
     if args.display:
