@@ -114,7 +114,7 @@ This will:
 
  I did compare an image written to disk with these scripts against an image
  written to disk by Apple's `Preview` program, and there is still a difference,
- which I attribute mostly color masks and the fact that Apple likely has ~10
- full time programmers working on `Preview` whereas I am merely one lone woof,
+ which I attribute mostly to color masks, and the fact that Apple likely has ~10
+ full time programmers working on `Preview`, whereas I am merely one lone woof,
  and I just started this thing a couple hours ago. So
  [eh](https://www.youtube.com/watch?v=uOJFhKriSH8).
