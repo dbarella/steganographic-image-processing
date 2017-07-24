@@ -8,8 +8,7 @@ from PIL import Image, ImageMath
 import utilities
 
 
-def argument_parser():
-    # type: () -> argparse.ArgumentParser
+def argument_parser() -> argparse.ArgumentParser:
     """Returns a configured argparser.ArgumentParser for this program."""
     parser = argparse.ArgumentParser(
         description='Encode SECRETS into a picture',
@@ -48,8 +47,7 @@ def argument_parser():
     return parser
 
 
-def encode(host, payload, n_significant_digits):
-    # type: (PIL.Image, PIL.Image, int) -> PIL.Image
+def encode(host: Image, payload: Image, n_significant_digits: int) -> Image:
     """Encode a payload into an image (using the last n_significant_digits)."""
     output_rgb_channels = []
     for host_channel, payload_channel in zip(host.split(), payload.split()):
