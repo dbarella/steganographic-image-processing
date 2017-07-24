@@ -128,8 +128,9 @@ def main():
     # type: Dict[int, PIL.Image]
     lsd_to_images_map = process(
         Image.open(args.image_name),
-        (args.least_significant_digits_lower_bound,
-         args.least_significant_digits_upper_bound + 1))
+        least_significant_digit_interval=(
+            args.least_significant_digits_lower_bound,
+            args.least_significant_digits_upper_bound + 1))
 
     # Display the processed images
     if args.display:
