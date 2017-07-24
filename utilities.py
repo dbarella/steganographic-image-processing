@@ -19,24 +19,28 @@ def bit_mask(size: int) -> int:
 def query_user(question: str, default: Optional[bool]=None) -> bool:
     """Ask the user a yes/no question and return the response.
 
-    Copied from
+    Seeded from from
     https://stackoverflow.com/questions/3041986/apt-command-line-interface-like-yes-no-input
 
-    "question" is a string that is presented to the user.
-    "default" is the presumed answer if the user just hits <Enter>.
-        It must be "yes" (the default), "no" or None (meaning
-        an answer is required of the user).
+    Args:
+        question: A prompt to provide to the user.
+        default: An optional presumed answer, if the user just hits <Enter>.
+            It must be "yes" (the default), "no" or None (meaning
+            an answer is required of the user).
 
-    The "answer" return value is True for "yes" or False for "no".
+    Returns:
+        True if the user specifies a truthy variant, False if the user specifies
+        a falsy variant, or the default value.
     """
-    if default is None:
-        prompt = ' [y/n] '
-    elif default == 'yes':
-        prompt = ' [Y/n] '
-    elif default == 'no':
-        prompt = ' [y/N] '
+    default_to_prompt: Dict[Optional[bool], str] = {
+        None: '[y/n]',
+        True: '[Y/n]',
+        False: '[y/N]',
+    }
+    if default not in default_to_prompt:
+        raise ValueError(f'invalid default answer: "{default}"')
     else:
-        raise ValueError("invalid default answer: '%s'" % default)
+        prompt = default_to_prompt[default]
 
     response_to_bool: Dict[str, bool] = {
         'yes': True,
@@ -45,14 +49,14 @@ def query_user(question: str, default: Optional[bool]=None) -> bool:
         'n': False
     }
     while True:
-        sys.stdout.write(question + prompt)
+        sys.stdout.write(f'{question} {prompt}: ')
         choice = input().lower()
-        if default is not None and choice == '':
-            return response_to_bool_map[default]
-        elif choice in response_to_bool_map:
-            return response_to_bool_map[choice]
+        if default is not None and not choice:
+            return default
+        elif choice in response_to_bool:
+            return response_to_bool[choice]
         else:
             print(
                 'Please respond with one of "{0:s}"'.format(
-                    '", "'.join(response_to_bool_map.keys())))
+                    '", "'.join(response_to_bool.keys())))
 
