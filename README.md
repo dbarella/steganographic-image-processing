@@ -42,7 +42,7 @@ python3 processing.py \
 
 This will:
 
-1. Process `riskytxt.jpg` using `0b1` through `0b11111111` bitmasks
+1. Process `riskytxt.png` using `0b1` through `0b11111111` bitmasks
 1. Display the post-processed images for the user to check them out
 1. Save the processed images to `/tmp/pix`
 
@@ -68,7 +68,7 @@ python3 encoding.py \
 
 This will:
 
-1. Encode SECRETS.jpg into riskytxt.png
+1. Encode SECRETS.png into riskytxt.png
 1. Display the encoded image for the user to check out
 1. Save the encoded image to `/tmp/pix`
 
@@ -95,8 +95,8 @@ python3 pipeline.py
 
 This will:
 
-1. Encode SECRETS.jpg into riskytxt.png
-1. Process `riskytxt.jpg` using `0b1` through `0b11111111` bitmasks
+1. Encode SECRETS.png into riskytxt.png
+1. Process `riskytxt.png` using `0b1` through `0b11111111` bitmasks
 1. Display the post-processed images for the user to check them out
 1. _Upon the user hitting `<enter>`_, display the encoded image for the user to
    check out
