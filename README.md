@@ -12,8 +12,11 @@ coding lol. "What a time to be alive."
   python 2 doesn't support the `pathlib` backport, and I like structured data
   too much to give up on using `pathlib`...
 
-- `pip3 install -r requirements.txt` should take care of the rest of the
-  dependencies.
+- Anyway, this should take care of the rest of the dependencies:
+
+```sh
+pip3 install -r requirements.txt
+```
 
 ### Manual Installation
 
