@@ -80,7 +80,7 @@ This will:
 1. Display the encoded image for the user to check out
 1. Save the encoded image to `/tmp/pix`
 
-## pipeline.py
+## `pipeline.py`
 
 This is just something that I wrote because I got tired of running everything by
 hand in `ipython3` – this essentially does a `process(encode(pic))`, with a few
