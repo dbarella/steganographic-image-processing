@@ -75,10 +75,7 @@ def pipeline(
     return (
         encoded,
         processing.process(
-            image=encoding.encode(
-                host_image,
-                payload_image,
-                encoding_significant_digits),
+            image=encoded,
             significant_digit_interval=significant_digit_interval))
 
 
@@ -97,7 +94,6 @@ def main():
     # Display the processed images
     for _, image in lsd_to_images_map.items():
         image.show()
-
 
     if args.display_encoded_image:
         input('Hit enter to display the encoded image.')
