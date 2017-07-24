@@ -47,7 +47,11 @@ def argument_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def encode(host: Image, payload: Image, n_significant_digits: int) -> Image:
+def encode(
+        host: Image.Image,
+        payload: Image.Image,
+        n_significant_digits: int
+    ) -> Image.Image:
     """Encode a payload into an image (using the last n_significant_digits)."""
     output_rgb_channels = []
     for host_channel, payload_channel in zip(host.split(), payload.split()):
@@ -82,7 +86,7 @@ def main():
     if args.save:
         user_response = utilities.query_user(
             'GONNA SAVE ENCODED IMAGE to "{0:s}"; GAR, IS THAT K???'.format(
-                str(args.output_dir.absolute()))))
+                str(args.output_dir.absolute())))
         if user_response:
             p = args.host_image  # Short reference to the host_image path
             filename = '{0:s}{1:s}{2:s}'.format(p.stem, '.encoded', p.suffix)

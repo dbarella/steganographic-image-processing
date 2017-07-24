@@ -52,7 +52,8 @@ def argument_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def image_apply(image: Image, function: Callable[[int], int]) -> Image:
+def image_apply(
+        image: Image.Image, function: Callable[[int], int]) -> Image.Image:
     """Applies a function to an image, returning the result as a new image.
 
     Args:
@@ -90,9 +91,9 @@ def apply_function_and_normalize_to_rgb(
 
 
 def process(
-        image: Image,
+        image: Image.Image,
         significant_digit_interval: Tuple[int, int]
-    ) -> Dict[int, Image]:
+    ) -> Dict[int, Image.Image]:
     """Runs an image through some steganographic decodings.
 
     Args:
@@ -113,7 +114,7 @@ def process(
     return processed_images
 
 
-def save(images: Dict[int, Image], output_dir: pathlib.Path) -> None:
+def save(images: Dict[int, Image.Image], output_dir: pathlib.Path) -> None:
     """Saves images with filenames showing the significant digit processed."""
     for significant_digits, image in images.items():
         filename = ('0b{0:b}.png'.format(
@@ -125,7 +126,7 @@ def save(images: Dict[int, Image], output_dir: pathlib.Path) -> None:
 def main():
     args = argument_parser().parse_args()
 
-    lsd_to_images_map: Dict[int, Image]
+    lsd_to_images_map: Dict[int, Image.Image]
     lsd_to_images_map = process(
         Image.open(args.image_name),
         significant_digit_interval=(
