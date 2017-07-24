@@ -39,6 +39,10 @@ def argument_parser():
         type=int,
         default=1,
         help='The highest number of least significant digits to scan over.')
+    parser.add_argument(
+        '--display_encoded_image',
+        action='store_true',
+        help="Show the encoded image, if you're curious")
 
     return parser
 
@@ -48,24 +52,41 @@ def pipeline(
         payload_image,
         encoding_significant_digits,
         least_significant_digit_interval):
-    # type: (PIL.Image, PIL.Image, int, Tuple[int, int]) -> Dict[int, PIL.Image]
-    """Encodes an image using some params, returning a decoded-image dict."""
+    # type: (
+    #    PIL.Image, PIL.Image, int, Tuple[int, int]
+    # ) -> Tuple[PIL.Image, Dict[int, PIL.Image]]
+    """Encodes an image using some params, returning encoded and decoded images.
+
+    Args:
+        host_image: Host image.
+        payload_image: Payload image.
+        (Yeah, I know, and I don't care. These values are documented elsewhere.)
+        encoding_significant_digits: The significant digits to use in the
+            encoding.
+        least_significant_digits_interval: The significant digits to scan over
+            when decoding the image.
+    Returns:
+        A 2-tuple; the first item is the encoded image, the second item is a
+        dictionary mapping from significant_digit to decoded PIL.Image.
+    """
     encoded = encoding.encode(
         host_image, payload_image, encoding_significant_digits)
 
-    return processing.process(
-        image=encoding.encode(
-            host_image,
-            payload_image,
-            encoding_significant_digits),
-        least_significant_digit_interval=least_significant_digit_interval)
+    return (
+        encoded,
+        processing.process(
+            image=encoding.encode(
+                host_image,
+                payload_image,
+                encoding_significant_digits),
+            least_significant_digit_interval=least_significant_digit_interval))
 
 
 def main():
     args = argument_parser().parse_args()
 
     # type: Dict[int, PIL.Image]
-    lsd_to_images_map = pipeline(
+    encoded, lsd_to_images_map = pipeline(
         host_image=Image.open(args.host_image),
         payload_image=Image.open(args.payload_image),
         encoding_significant_digits=args.encoding_significant_digits, 
@@ -76,6 +97,11 @@ def main():
     # Display the processed images
     for _, image in lsd_to_images_map.items():
         image.show()
+
+
+    if args.display_encoded_image:
+        input('Hit enter to display the encoded image.')
+        encoded.show()
 
 
 if __name__ == '__main__':
