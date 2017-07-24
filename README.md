@@ -1,6 +1,6 @@
 # Steganographic Image Processing
 
-Just a simple python script for processing images containing
+A collection of python scripts for processing images containing
 steganographically-embedded information in the least-significant digits of the
 RGB values.
 
@@ -12,8 +12,14 @@ coding lol. "What a time to be alive."
   python 2 doesn't support the `pathlib` backport, and I like structured data
   too much to give up on using `pathlib`...
 
-- You'll also need to install `Pillow` and `pathlib`
-  (noted in `requirements.txt`)
+- You'll also need to install `Pillow`
+  (noted in `requirements.txt`):
+
+  - `pip3 install Pillow`
+
+  That should take care of all of the requirements, but I've never been right
+  when I've claimed things like this in the past, so if you have trouble,
+  [oooooooooooooohhhhhhhh........](https://www.youtube.com/watch?v=mX-wPxFsPgQ)
 
 ## `processing.py`
 
