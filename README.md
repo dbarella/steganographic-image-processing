@@ -12,14 +12,21 @@ coding lol. "What a time to be alive."
   python 2 doesn't support the `pathlib` backport, and I like structured data
   too much to give up on using `pathlib`...
 
-- You'll also need to install `Pillow`
-  (noted in `requirements.txt`):
+- `pip3 install -r requirements.txt` should take care of the rest of the
+  dependencies.
 
-  - `pip3 install Pillow`
+### Manual Installation
 
-  That should take care of all of the requirements, but I've never been right
-  when I've claimed things like this in the past, so if you have trouble,
-  [oooooooooooooohhhhhhhh........](https://www.youtube.com/watch?v=mX-wPxFsPgQ)
+If the `pip3` command above doesn't work, you should be able to get away with
+just installing `Pillow` manually:
+
+```sh
+pip3 install Pillow
+```
+
+That should take care of all of the requirements, but I've never been right
+when I've claimed things like this in the past, so if you have trouble,
+[oooooooooooooohhhhhhhh........](https://www.youtube.com/watch?v=mX-wPxFsPgQ)
 
 ## `processing.py`
 
