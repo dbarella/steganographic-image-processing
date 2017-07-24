@@ -103,7 +103,8 @@ python3 pipeline.py
 
 This will:
 
-1. Encode `SECRETS.png` into `riskytxt.png`
+1. Encode `SECRETS.png` into `riskytxt.png` using the `2`-least-significant
+   digits
 1. Process `riskytxt.png` using `0b1` through `0b11111111` bitmasks
 1. Display the post-processed images for the user to check them out
 1. _Upon the user hitting `<enter>`_, display the encoded image for the user to
