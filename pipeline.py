@@ -92,7 +92,7 @@ def main():
             args.processing_significant_digits_upper_bound + 1))
 
     # Display the processed images
-    for _, image in lsd_to_images_map.items():
+    for _, image in sorted(lsd_to_images_map.items()):
         image.show()
 
     if args.display_encoded_image:

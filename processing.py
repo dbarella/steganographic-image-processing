@@ -135,7 +135,7 @@ def main():
 
     # Display the processed images
     if args.display:
-        for _, image in lsd_to_images_map.items():
+        for _, image in sorted(lsd_to_images_map.items()):
             image.show()
 
     # Save the images, if the user wants us to
