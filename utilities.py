@@ -4,8 +4,8 @@ import sys
 
 RGB_RANGE = 0b11111111
 
-def bit_mask(size):
-    # type: int -> int
+
+def bit_mask(size: int) -> int:
     """Return a bit mask with `size` number of 1-s."""
     if size < 0:
         raise ValueError('{0:d} B TOO SMALL BB'.format(size))
@@ -15,7 +15,7 @@ def bit_mask(size):
         return int('1' * size, base=2)
 
 
-def query_user(question, default="no"):
+def query_user(question: str, default: str="no") -> bool:
     """Ask the user a yes/no question and return the response.
 
     Copied from
