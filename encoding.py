@@ -88,7 +88,8 @@ def main():
         if user_response:
             p = args.host_image  # Short reference to the host_image path
             filename = '{0:s}{1:s}{2:s}'.format(p.stem, '.encoded', p.suffix)
-            encoded.save(args.output_dir.joinpath(filename), format='jpeg')
+            encoded.save(
+                args.output_dir.joinpath(filename), format='png', quality=100)
 
 
 if __name__ == '__main__':

@@ -117,8 +117,10 @@ def save(images, output_dir):
     # type: (Dict[int, PIL.Image], pathlib.Path) -> None
     """Saves images with filenames showing the significant digit processed."""
     for significant_digits, image in images.items():
-        filename = ('0b{}.jpg'.format(utilities.bit_mask(significant_digits)))
-        image.save(output_dir.joinpath(filename), format='jpeg')
+        filename = ('0b{0:b}.png'.format(
+            utilities.bit_mask(significant_digits)))
+        image.save(
+            output_dir.joinpath(filename), format='png', quality=100)
 
 
 def main():
