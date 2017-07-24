@@ -75,7 +75,8 @@ python3 encoding.py \
 
 This will:
 
-1. Encode `SECRETS.png` into `riskytxt.png`
+1. Encode `SECRETS.png` into `riskytxt.png` using the `2`-least-significant
+   digits
 1. Display the encoded image for the user to check out
 1. Save the encoded image to `/tmp/pix`
 
