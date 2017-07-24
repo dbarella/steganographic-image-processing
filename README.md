@@ -50,7 +50,7 @@ This will:
 
 This is a script for encoding images – you provide a `host` image (first
 argument, the image that everyone will see at first glance) and a `payload`
-image (second argument, the image that will be hiding within the host image.
+image (second argument, the image that will be hiding within the host image).
 There is an (implicit) requirement that both images be the same size, but I
 haven't actually tested that, so hey, give it a try and see what happens?
 
