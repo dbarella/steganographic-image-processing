@@ -2,6 +2,7 @@
 
 import sys
 
+RGB_RANGE = 0b11111111
 
 def bit_mask(size):
     # type: int -> int

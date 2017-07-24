@@ -55,8 +55,9 @@ def encode(host: Image, payload: Image, n_significant_digits: int) -> Image:
         mask = utilities.bit_mask(n_significant_digits)
         expression = (
             "convert("
-                "(host & (0xff - {mask})) | (payload & {mask}), 'L')".format(
-                    mask=mask))
+                "(host & ({rgb_range} - {mask})) "
+                "| (payload & {mask}), 'L')".format(
+                    rgb_range=utilities.RGB_RANGE, mask=mask))
         output_rgb_channels.append(
             ImageMath.eval(
                 expression,
@@ -79,10 +80,9 @@ def main():
 
     # Save the encoded image, if the user wants us to
     if args.save:
-        user_response = (
-            utilities.query_user(
-                'GONNA SAVE ENCODED IMAGE to "{0:s}"; GAR, IS THAT K???'.format(
-                    str(args.output_dir.absolute()))))
+        user_response = utilities.query_user(
+            'GONNA SAVE ENCODED IMAGE to "{0:s}"; GAR, IS THAT K???'.format(
+                str(args.output_dir.absolute()))))
         if user_response:
             p = args.host_image  # Short reference to the host_image path
             filename = '{0:s}{1:s}{2:s}'.format(p.stem, '.encoded', p.suffix)

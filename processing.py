@@ -11,8 +11,6 @@ from typing import Callable, Dict, Tuple
 # Specific to this package
 import utilities
 
-RGB_RANGE = 0b11111111
-
 
 def argument_parser() -> argparse.ArgumentParser:
     """Returns a configured argparser.ArgumentParser for this program."""
@@ -76,7 +74,7 @@ def normalize_to_rgb(value: int, n_significant_digits:int) -> int:
     """Normalizes an int value \in [0, n_significant_digits) to RGB."""
     if n_significant_digits == 0:
         return value
-    return value * int(float(RGB_RANGE) / n_significant_digits)
+    return value * int(float(utilities.RGB_RANGE) / n_significant_digits)
 
 
 def apply_function_and_normalize_to_rgb(
