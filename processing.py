@@ -60,8 +60,8 @@ def image_apply(image, function):
 
     Args:
         image: The image to process.
-        function: A function :: int -> int that takes a value \in [0, 256] and
-            returns a new value \in [0, 265].
+        function: A function :: int -> int that takes a value \in [0, 256) and
+            returns a new value \in [0, 256).
     """
     return Image.merge(
         'RGB', [channel.point(function) for channel in image.split()])
