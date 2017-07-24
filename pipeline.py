@@ -30,12 +30,12 @@ def argument_parser():
         default=1,
         help='The number of least significant digits with which to encode.')
     parser.add_argument(
-        '--processing_least_significant_digits_lower_bound',
+        '--processing_significant_digits_lower_bound',
         type=int,
         default=1,
         help='The lowest number of least significant digits to scan over.')
     parser.add_argument(
-        '--processing_least_significant_digits_upper_bound',
+        '--processing_significant_digits_upper_bound',
         type=int,
         default=1,
         help='The highest number of least significant digits to scan over.')
@@ -51,7 +51,7 @@ def pipeline(
         host_image,
         payload_image,
         encoding_significant_digits,
-        least_significant_digit_interval):
+        significant_digit_interval):
     # type: (
     #    PIL.Image, PIL.Image, int, Tuple[int, int]
     # ) -> Tuple[PIL.Image, Dict[int, PIL.Image]]
@@ -63,7 +63,7 @@ def pipeline(
         (Yeah, I know, and I don't care. These values are documented elsewhere.)
         encoding_significant_digits: The significant digits to use in the
             encoding.
-        least_significant_digits_interval: The significant digits to scan over
+        significant_digit_interval: The significant digits to scan over
             when decoding the image.
     Returns:
         A 2-tuple; the first item is the encoded image, the second item is a
@@ -79,7 +79,7 @@ def pipeline(
                 host_image,
                 payload_image,
                 encoding_significant_digits),
-            least_significant_digit_interval=least_significant_digit_interval))
+            significant_digit_interval=significant_digit_interval))
 
 
 def main():
@@ -90,9 +90,9 @@ def main():
         host_image=Image.open(args.host_image),
         payload_image=Image.open(args.payload_image),
         encoding_significant_digits=args.encoding_significant_digits, 
-        least_significant_digit_interval=(
-            args.processing_least_significant_digits_lower_bound,
-            args.processing_least_significant_digits_upper_bound + 1))
+        significant_digit_interval=(
+            args.processing_significant_digits_lower_bound,
+            args.processing_significant_digits_upper_bound + 1))
 
     # Display the processed images
     for _, image in lsd_to_images_map.items():
