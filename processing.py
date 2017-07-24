@@ -6,6 +6,7 @@ import os
 import sys
 
 from PIL import Image
+from typing import Callable, Dict, Tuple
 
 # Specific to this package
 import utilities
@@ -13,8 +14,7 @@ import utilities
 RGB_RANGE = 0b11111111
 
 
-def argument_parser():
-    # type: () -> argparse.ArgumentParser
+def argument_parser() -> argparse.ArgumentParser:
     """Returns a configured argparser.ArgumentParser for this program."""
     parser = argparse.ArgumentParser(
         description='Process an image to figure out if it contains ~*SECRETS*~',
@@ -54,8 +54,7 @@ def argument_parser():
     return parser
 
 
-def image_apply(image, function):
-    # type: (PIL.Image, Callable[[int], int]) -> PIL.Image
+def image_apply(image: Image, function: Callable[[int], int]) -> Image:
     """Applies a function to an image, returning the result as a new image.
 
     Args:
@@ -67,32 +66,35 @@ def image_apply(image, function):
         'RGB', [channel.point(function) for channel in image.split()])
 
 
-def least_significant_digits(pixel_value, n_significant_digits):
-    # type: int -> int
+def least_significant_digits(
+        pixel_value: int, n_significant_digits: int) -> int:
     """Returns the n least-significant-digits of pixel_value."""
     return pixel_value & utilities.bit_mask(n_significant_digits)
 
 
-def normalize_to_rgb(value, n_significant_digits):
-    # type: (int, int) -> int
+def normalize_to_rgb(value: int, n_significant_digits:int) -> int:
     """Normalizes an int value \in [0, n_significant_digits) to RGB."""
     if n_significant_digits == 0:
         return value
     return value * int(float(RGB_RANGE) / n_significant_digits)
 
 
-def apply_function_and_normalize_to_rgb(function, n_significant_digits):
-    # type: (Callable[[int, int], int], int) -> Callable[int, int]
+def apply_function_and_normalize_to_rgb(
+        function: Callable[[int, int], int],
+        n_significant_digits: int
+    ) -> Callable[[int], int]:
     """Composes a function which takes a pixel and applies function to it."""
-    def inner(pixel_value):
+    def inner(pixel_value: int) -> int:
         return normalize_to_rgb(
             function(pixel_value, n_significant_digits),
             n_significant_digits)
     return inner
 
 
-def process(image, significant_digit_interval):
-    # type: (str, Tuple[int, int]) -> Dict[int, PIL.Image]
+def process(
+        image: Image,
+        significant_digit_interval: Tuple[int, int]
+    ) -> Dict[int, Image]:
     """Runs an image through some steganographic decodings.
 
     Args:
@@ -113,8 +115,7 @@ def process(image, significant_digit_interval):
     return processed_images
 
 
-def save(images, output_dir):
-    # type: (Dict[int, PIL.Image], pathlib.Path) -> None
+def save(images: Dict[int, Image], output_dir: pathlib.Path) -> None:
     """Saves images with filenames showing the significant digit processed."""
     for significant_digits, image in images.items():
         filename = ('0b{0:b}.png'.format(
@@ -126,7 +127,7 @@ def save(images, output_dir):
 def main():
     args = argument_parser().parse_args()
 
-    # type: Dict[int, PIL.Image]
+    lsd_to_images_map: Dict[int, Image]
     lsd_to_images_map = process(
         Image.open(args.image_name),
         significant_digit_interval=(
