@@ -41,20 +41,23 @@ d:
 
 ### Usage
 
+See the `examples` directory for the images being referenced herein.
+
 ```sh
 python3 processing.py \
-  riskytext.png  \
-  --significant_digits_upper_bound=8 \
+  examples/secret_inspirations/output/inspirations.encoded.png  \
+  --significant_digits_upper_bound=8  \
   --display \
-  --save \
-  --output_dir /tmp/pix
+  --save  \
+  --output_dir examples/secret_inspirations/output
 ```
 
 This will:
 
-1. Process `riskytxt.png` using `0b1` through `0b11111111` bitmasks
+1. Process `inspirations.encoded.png` using `0b1` through `0b11111111` bitmasks
 1. Display the post-processed images for the user to check them out
-1. Save the processed images to `/tmp/pix`
+1. Save the processed images to `examples/secret_inspirations/output`
+   with names of the form `<original_image_name>.decoded-<bitmask>.<filetype>`
 
 ## `encoding.py`
 
@@ -68,20 +71,21 @@ haven't actually tested that, so hey, give it a try and see what happens?
 
 ```sh
 python3 encoding.py \
-  riskytxt.png \
-  SECRETS.png \
+  examples/secret_inspirations/inspirations.png \
+  examples/secret_inspirations/secrets.png \
   --significant_digits=2 \
   --display \
   --save \
-  --output_dir /tmp/pix
+  --output_dir examples/secret_inspirations/output
 ```
 
 This will:
 
-1. Encode `SECRETS.png` into `riskytxt.png` using the `2`-least-significant
+1. Encode `secrets.png` into `inspirations.png` using the `2`-least-significant
    digits
 1. Display the encoded image for the user to check out
-1. Save the encoded image to `/tmp/pix`
+1. Save the encoded image to `examples/secret_inspirations/output`
+   with names of the form `<original_image_name>.encoded.<filetype>`
 
 ## `pipeline.py`
 
@@ -95,20 +99,20 @@ Again, it exists purely because of laziness.
 ### Usage
 
 ```sh
-python3 pipeline.py
-  riskytxt.png \
-  SECRETS.png \
-  --encoding_significant_digits=2 \
+python3 pipeline.py \
+  examples/secret_inspirations/inspirations.png \
+  examples/secret_inspirations/secrets.png \
   --processing_significant_digits_lower_bound=1 \
   --processing_significant_digits_upper_bound=8 \
-  --display_encoded_image
+  --display_encoded_image \
+  --encoding_significant_digits=2
 ```
 
 This will:
 
-1. Encode `SECRETS.png` into `riskytxt.png` using the `2`-least-significant
+1. Encode `secrets.png` into `inspirations.png` using the `2`-least-significant
    digits
-1. Process `riskytxt.png` using `0b1` through `0b11111111` bitmasks
+1. Process the encoded file using `0b1` through `0b11111111` bitmasks
 1. Display the post-processed images for the user to check them out
 1. _Upon the user hitting `<enter>`_, display the encoded image for the user to
    check out
