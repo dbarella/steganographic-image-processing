@@ -37,10 +37,10 @@ def query_user(question: str, default: Optional[bool]=None) -> bool:
         True: '[Y/n]',
         False: '[y/N]',
     }
-    if default not in default_to_prompt:
-        raise ValueError(f'invalid default answer: "{default}"')
-    else:
+    if default in default_to_prompt:
         prompt = default_to_prompt[default]
+    else:
+        raise ValueError(f'invalid default answer: "{default}"')
 
     response_to_bool: Dict[str, bool] = {
         'yes': True,
