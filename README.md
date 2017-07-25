@@ -31,6 +31,33 @@ That should take care of all of the requirements, but I've never been right
 when I've claimed things like this in the past, so if you have trouble,
 [oooooooooooooohhhhhhhh........](https://www.youtube.com/watch?v=mX-wPxFsPgQ)
 
+## Example
+
+So, what does an steganographic pictures is, anyway?
+
+### Just a plain ol' image
+
+Here is an image. Nothing out of the ordinary, right?
+
+[[examples/secret_inspirations/output/inspirations.encoded.png|alt=orginary]]
+
+### CONTAINING SECRETS!!!
+
+WRONG!!! This image contains secrets!!!:
+
+[[examples/secret_inspirations/output/inspirations.encoded.decoded-0b1]]
+
+### But ¿HOW?
+
+Ahh, that's the secret sauce. I've written up an explanation, but it's 4 am and
+I've already put a lot of time into this project, so I think I'll defer to
+[wikipedia](https://en.wikipedia.org/wiki/Steganography#Digital_messages) for
+the foreseeable future – if you really want my explanation, open an issue. If
+enough people care, I might put it up after all (;
+
+Butt, if you want to _make_ images like this, then this repo is for you! Read on
+to find out all about it...
+
 ## `processing.py`
 
 `python processing.py --help` should get you started – this is a script for
