@@ -32,13 +32,12 @@ def query_user(question: str, default: Optional[bool]=None) -> bool:
         True if the user specifies a truthy variant, False if the user specifies
         a falsy variant, or the default value.
     """
-    default_to_prompt: Dict[Optional[bool], str] = {
-        None: '[y/n]',
-        True: '[Y/n]',
-        False: '[y/N]',
-    }
-    if default in default_to_prompt:
-        prompt = default_to_prompt[default]
+    if default is None:
+        prompt = '[y/n]'
+    elif default is True:
+        prompt = '[Y/n]'
+    elif default is False:
+        prompt = '[y/N]'
     else:
         raise ValueError(f'invalid default answer: "{default}"')
 
