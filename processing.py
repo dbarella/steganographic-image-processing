@@ -19,8 +19,8 @@ def argument_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
     parser.add_argument(
-        'image_name',
-        type=str,
+        'image',
+        type=pathlib.Path,
         help='The name of the image to process.')
     parser.add_argument(
         '--significant_digits_lower_bound',
@@ -62,7 +62,7 @@ def image_apply(
             returns a new value \in [0, 256).
     """
     return Image.merge(
-        'RGB', [channel.point(function) for channel in image.split()])
+        'RGBA', [channel.point(function) for channel in image.split()])
 
 
 def least_significant_digits(
@@ -114,11 +114,15 @@ def process(
     return processed_images
 
 
-def save(images: Dict[int, Image.Image], output_dir: pathlib.Path) -> None:
+def save(
+        images: Dict[int, Image.Image],
+        filename_seed: pathlib.Path,
+        output_dir: pathlib.Path
+    ) -> None:
     """Saves images with filenames showing the significant digit processed."""
     for significant_digits, image in images.items():
-        filename = ('0b{0:b}.png'.format(
-            utilities.bit_mask(significant_digits)))
+        filename = ('{0:s}.decoded-0b{1:b}.png'.format(
+            filename_seed.stem, utilities.bit_mask(significant_digits)))
         image.save(
             output_dir.joinpath(filename), format='png', quality=100)
 
@@ -128,7 +132,7 @@ def main():
 
     lsd_to_images_map: Dict[int, Image.Image]
     lsd_to_images_map = process(
-        Image.open(args.image_name),
+        Image.open(args.image),
         significant_digit_interval=(
             args.significant_digits_lower_bound,
             args.significant_digits_upper_bound + 1))
@@ -145,7 +149,7 @@ def main():
                 'GONNA SAVE {0:d} IMAGES to "{1:s}"; GAR, IS THAT K???'.format(
                     len(lsd_to_images_map), str(args.output_dir.absolute()))))
         if user_response:
-            save(lsd_to_images_map, output_dir=args.output_dir)
+            save(lsd_to_images_map, args.image, output_dir=args.output_dir)
 
 
 if __name__ == '__main__':

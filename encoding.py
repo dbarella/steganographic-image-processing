@@ -67,8 +67,19 @@ def encode(
                 expression,
                 host=host_channel,
                 payload=payload_channel))
-    return Image.merge('RGB', output_rgb_channels)
+    return Image.merge('RGBA', output_rgb_channels)
 
+
+def save(
+        encoded: Image.Image,
+        filename_seed: pathlib.Path,
+        output_dir: pathlib.Path
+    ) -> None:
+    """Saves the encoded image to disk to the specified output_dir."""
+    p = filename_seed  # Shorter reference
+    filename = '{0:s}{1:s}{2:s}'.format(p.stem, '.encoded', p.suffix)
+    encoded.save(
+        output_dir.joinpath(filename), format='png', quality=100)
 
 def main():
     args = argument_parser().parse_args()
@@ -88,10 +99,7 @@ def main():
             'GONNA SAVE ENCODED IMAGE to "{0:s}"; GAR, IS THAT K???'.format(
                 str(args.output_dir.absolute())))
         if user_response:
-            p = args.host_image  # Short reference to the host_image path
-            filename = '{0:s}{1:s}{2:s}'.format(p.stem, '.encoded', p.suffix)
-            encoded.save(
-                args.output_dir.joinpath(filename), format='png', quality=100)
+            save(encoded, args.host_image, args.output_dir)
 
 
 if __name__ == '__main__':
