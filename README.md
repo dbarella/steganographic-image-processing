@@ -45,7 +45,7 @@ Here is an image. Nothing out of the ordinary, right?
 
 WRONG!!! This image contains secrets!!!:
 
-![Hidden Secrets](examples/secret_inspirations/output/inspirations.encoded.decoded-0b1.png)
+![Hidden Secrets](examples/secret_inspirations/output/inspirations.encoded.decoded-0b11.png)
 
 ### But ¿HOW?
 
