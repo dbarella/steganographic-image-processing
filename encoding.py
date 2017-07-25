@@ -55,7 +55,6 @@ def encode(
     """Encode a payload into an image (using the last n_significant_digits)."""
     output_rgb_channels = []
     for host_channel, payload_channel in zip(host.split(), payload.split()):
-        # Mask out all but the least significant byte, encoding payload there
         mask = utilities.bit_mask(n_significant_digits)
         expression = (
             "convert("
