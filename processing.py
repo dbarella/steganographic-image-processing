@@ -8,7 +8,6 @@ import sys
 from PIL import Image
 from typing import Callable, Dict, Tuple
 
-# Specific to this package
 import utilities
 
 
@@ -130,8 +129,7 @@ def save(
 def main():
     args = argument_parser().parse_args()
 
-    lsd_to_images_map: Dict[int, Image.Image]
-    lsd_to_images_map = process(
+    lsd_to_images_map: Dict[int, Image.Image] = process(
         Image.open(args.image),
         significant_digit_interval=(
             args.significant_digits_lower_bound,
