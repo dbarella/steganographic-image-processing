@@ -129,10 +129,10 @@ Again, it exists purely because of laziness.
 python3 pipeline.py \
   examples/secret_inspirations/inspirations.png \
   examples/secret_inspirations/secrets.png \
-  --processing_significant_digits_lower_bound=1 \
-  --processing_significant_digits_upper_bound=8 \
+  --encoding_significant_digits=2 \
   --display_encoded_image \
-  --encoding_significant_digits=2
+  --processing_significant_digits_lower_bound=1 \
+  --processing_significant_digits_upper_bound=8
 ```
 
 This will:
