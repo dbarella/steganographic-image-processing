@@ -66,7 +66,7 @@ def encode(
                 expression,
                 host=host_channel,
                 payload=payload_channel))
-    return Image.merge('RGBA', output_rgb_channels)
+    return Image.merge(''.join(host.getbands()), output_rgb_channels)
 
 
 def save(

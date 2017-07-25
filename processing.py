@@ -61,7 +61,8 @@ def image_apply(
             returns a new value \in [0, 256).
     """
     return Image.merge(
-        'RGBA', [channel.point(function) for channel in image.split()])
+        ''.join(image.getbands()),
+        [channel.point(function) for channel in image.split()])
 
 
 def least_significant_digits(
