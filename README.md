@@ -39,13 +39,13 @@ So, what does an steganographic pictures is, anyway?
 
 Here is an image. Nothing out of the ordinary, right?
 
-[[examples/secret_inspirations/output/inspirations.encoded.png|alt=orginary]]
+![Orginary Image](examples/secret_inspirations/output/inspirations.encoded.png)
 
 ### CONTAINING SECRETS!!!
 
 WRONG!!! This image contains secrets!!!:
 
-[[examples/secret_inspirations/output/inspirations.encoded.decoded-0b1]]
+![Hidden Secrets](examples/secret_inspirations/output/inspirations.encoded.decoded-0b1)
 
 ### But ¿HOW?
 
