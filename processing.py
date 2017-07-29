@@ -121,10 +121,15 @@ def save(
     ) -> None:
     """Saves images with filenames showing the significant digit processed."""
     for significant_digits, image in images.items():
-        filename = ('{0:s}.decoded-0b{1:b}.png'.format(
-            filename_seed.stem, utilities.bit_mask(significant_digits)))
-        image.save(
-            output_dir.joinpath(filename), format='png', quality=100)
+        # Example: foo.png => foo.decoded-0b1.png
+        filename = (
+            filename_seed.with_suffix(
+                '.decoded-0b{digits:b}{suffix:s}'.format(
+                    digits=utilities.bit_mask(significant_digits),
+                    suffix=filename_seed.suffix))
+            .name)
+
+        image.save(output_dir.joinpath(filename), quality=100)
 
 
 def main():

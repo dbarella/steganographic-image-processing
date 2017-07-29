@@ -75,10 +75,12 @@ def save(
         output_dir: pathlib.Path
     ) -> None:
     """Saves the encoded image to disk to the specified output_dir."""
-    p = filename_seed  # Shorter reference
-    filename = '{0:s}{1:s}{2:s}'.format(p.stem, '.encoded', p.suffix)
-    encoded.save(
-        output_dir.joinpath(filename), format='png', quality=100)
+    # Example: foo.png => foo.encoded.png
+    filename = (
+        filename_seed.with_suffix(
+            f'.encoded{filename_seed.suffix}')
+        .name)
+    encoded.save(output_dir.joinpath(filename), quality=100)
 
 def main():
     args = argument_parser().parse_args()
